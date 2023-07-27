@@ -305,7 +305,7 @@ VALUES ('$hash_ids','$category_discountss','$percent_discounts','$discounts_date
 
 function users_insert($conn){
     if(isset($_POST['action']) && $_POST['action'] == 'insert_gift') {
-        include '../wizwizxui-timebot/baseInfo.php';
+        include '../hamed-timebot/baseInfo.php';
         $chatId = $_POST["id_user"];
         $gifts = $_POST["gift"];
         $urls = $_POST["url"];
