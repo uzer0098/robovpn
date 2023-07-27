@@ -1,5 +1,5 @@
 <?php
-include '../wizwizxui-timebot/baseInfo.php';
+include '../hamed-timebot/baseInfo.php';
 $servername = "localhost";
 $conn = new mysqli($servername, $dbUserName, $dbPassword, $dbName);
 $conn->set_charset("utf8mb4");
