@@ -22,7 +22,7 @@ echo -e "    \e[31mTelegram Channel: \e[34m@wizwizch\033[0m | \e[31mTelegram Gro
 echo -e "\e[32mInstalling WizWiz script ... \033[0m\n"
 sleep 5
 
-git clone https://github.com/wizwizdev/wizwizxui-timebot.git /var/www/html/hamed-timebot
+git clone https://github.com/uzer0098/robovpn.git /var/www/html/hamed-timebot
 sudo chown -R www-data:www-data /var/www/html/hamed-timebot/
 sudo chmod -R 755 /var/www/html/hamed-timebot/
 echo -e "\n\033[33mWizWiz config and script have been installed successfully\033[0m"
@@ -44,7 +44,7 @@ fi
  destination_dir=$(find /var/www/html -type d -name "*hamedpanel*" | head -n 1)
 
  cd /var/www/html/
- wget -O wizwizpanel.zip https://github.com/wizwizdev/wizwizxui-timebot/releases/download/7.5.3/wizwizpanel.zip
+ wget -O wizwizpanel.zip https://github.com/uzer0098/robovpn/releases/download/7.5.3/wizpanel.zip
 
  file_to_transfer="/var/www/html/wizwizpanel.zip"
  destination_dir=$(find /var/www/html -type d -name "*hamedpanel*" | head -n 1)
@@ -62,26 +62,12 @@ wait
 
 if [ ! -d "/root/confwizwiz" ]; then
 
-    sudo mkdir /root/confwizwiz
-    
-    sleep 1
-    
-    touch /root/confwizwiz/dbrootwizwiz.txt
-    sudo chmod -R 777 /root/confwizwiz/dbrootwizwiz.txt
-    sleep 1
-    
-    randomdbpasstxt=$(openssl rand -base64 10 | tr -dc 'a-zA-Z0-9' | cut -c1-8)
 
     ASAS="$"
 
-    echo "${ASAS}user = 'root';" >> /root/confwizwiz/dbrootwizwiz.txt
-    echo "${ASAS}pass = '${randomdbpasstxt}';" >> /root/confwizwiz/dbrootwizwiz.txt
     echo "${ASAS}path = '${RANDOM_NUMBER}';" >> /root/confwizwiz/dbrootwizwiz.txt
     
     sleep 1
-
-    passs=$(cat /root/confwizwiz/dbrootwizwiz.txt | grep '$pass' | cut -d"'" -f2)
-    userrr=$(cat /root/confwizwiz/dbrootwizwiz.txt | grep '$user' | cut -d"'" -f2)
 
     sudo mysql -u $userrr -p$passs -e "alter user '$userrr'@'localhost' identified with mysql_native_password by '$passs';FLUSH PRIVILEGES;"
 
@@ -127,43 +113,6 @@ PATHS=$(cat /root/confwizwiz/dbrootwizwiz.txt | grep '$path' | cut -d"'" -f2)
 
 echo -e "\n\e[92m Setting Up Cron...\033[0m\n"
 
-# Allow HTTP and HTTPS traffic
-echo -e "\n\033[1;7;31mAllowing HTTP and HTTPS traffic...\033[0m\n"
-sudo ufw allow 80
-sudo ufw allow 443
-
-# Let's Encrypt
-echo -e "\n\033[1;7;32mInstalling Let's Encrypt...\033[0m\n"
-sudo apt install letsencrypt -y
-
-# automatic certificate renewal
-echo -e "\n\033[1;7;33mEnabling automatic certificate renewal...\033[0m\n"
-sudo systemctl enable certbot.timer
-
-# SSL certificate using standalone mode
-echo -e "\n\033[1;7;34mObtaining SSL certificate using standalone mode...\033[0m\n"
-sudo certbot certonly --standalone --agree-tos --preferred-challenges http -d $DOMAIN_NAME
-
-# Certbot Apache plugin
-echo -e "\n\033[1;7;35mInstalling Certbot Apache plugin...\033[0m\n"
-sudo apt install python3-certbot-apache -y
-
-# SSL certificate using Apache plugin
-echo -e "\n\033[1;7;36mObtaining SSL certificate using Apache plugin...\033[0m\n"
-sudo certbot --apache --agree-tos --preferred-challenges http -d $DOMAIN_NAME
-
-# echo -e "\n\033[1;7;33mObtaining SSL certificate using manual DNS mode (wildcard)...\033[0m\n"
-# sudo certbot certonly --manual --agree-tos --preferred-challenges dns -d $DOMAIN_NAME -d $WILDCARD_DOMAIN
-
-
-echo -e "\e[32m======================================"
-echo -e "SSL certificate obtained successfully!"
-echo -e "======================================\033[0m"
-
-
-wait
-
-echo " "
 
 ROOT_PASSWORD=$(cat /root/confwizwiz/dbrootwizwiz.txt | grep '$pass' | cut -d"'" -f2)
 ROOT_USER="root"
