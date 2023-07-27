@@ -102,32 +102,32 @@ sudo systemctl restart apache2.service
 
 wait
 
-git clone https://github.com/wizwizdev/wizwizxui-timebot.git /var/www/html/wizwizxui-timebot
-sudo chown -R www-data:www-data /var/www/html/wizwizxui-timebot/
-sudo chmod -R 755 /var/www/html/wizwizxui-timebot/
+git clone https://github.com/wizwizdev/wizwizxui-timebot.git /var/www/html/hamed-timebot
+sudo chown -R www-data:www-data /var/www/html/hamed-timebot/
+sudo chmod -R 755 /var/www/html/hamed-timebot/
 echo -e "\n\033[33mWizWiz config and script have been installed successfully\033[0m"
 
 wait
     
     
-destination_dir=$(find /var/www/html -type d -name "*wizpanel*" | head -n 1)
+destination_dir=$(find /var/www/html -type d -name "*hamedpanel*" | head -n 1)
     
 if [ -z "$destination_dir" ]; then
     RANDOM_NUMBER=$(( RANDOM % 10000000 + 1000000 ))
-    mkdir "/var/www/html/wizpanel${RANDOM_NUMBER}"
-    echo "Directory created: wizpanel${RANDOM_NUMBER}"
+    mkdir "/var/www/html/hamedpanel${RANDOM_NUMBER}"
+    echo "Directory created: hamedpanel${RANDOM_NUMBER}"
     echo "Folder created successfully!"
 else
     echo "Folder already exists."
 fi
    
- destination_dir=$(find /var/www/html -type d -name "*wizpanel*" | head -n 1)
+ destination_dir=$(find /var/www/html -type d -name "*hamedpanel*" | head -n 1)
 
  cd /var/www/html/
  wget -O wizwizpanel.zip https://github.com/wizwizdev/wizwizxui-timebot/releases/download/7.5.3/wizwizpanel.zip
 
  file_to_transfer="/var/www/html/wizwizpanel.zip"
- destination_dir=$(find /var/www/html -type d -name "*wizpanel*" | head -n 1)
+ destination_dir=$(find /var/www/html -type d -name "*hamedpanel*" | head -n 1)
 
  if [ -z "$destination_dir" ]; then
    echo "Error: Could not find directory containing 'wiz' in '/var/www/html'"
@@ -200,10 +200,10 @@ DOMAIN_NAME="$domainname"
 
 # update cron
 PATHS=$(cat /root/confwizwiz/dbrootwizwiz.txt | grep '$path' | cut -d"'" -f2)
-(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/wizwizxui-timebot/settings/messagewizwiz.php >/dev/null 2>&1") | sort - | uniq - | crontab -
-(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/wizwizxui-timebot/settings/rewardReport.php >/dev/null 2>&1") | sort - | uniq - | crontab -
-(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/wizwizxui-timebot/settings/warnusers.php >/dev/null 2>&1") | sort - | uniq - | crontab -
-(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/wizpanel${PATHS}/backupnutif.php >/dev/null 2>&1") | sort - | uniq - | crontab -
+(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/hamed-timebot/settings/messagewizwiz.php >/dev/null 2>&1") | sort - | uniq - | crontab -
+(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/hamed-timebot/settings/rewardReport.php >/dev/null 2>&1") | sort - | uniq - | crontab -
+(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/hamed-timebot/settings/warnusers.php >/dev/null 2>&1") | sort - | uniq - | crontab -
+(crontab -l ; echo "* * * * * curl https://${DOMAIN_NAME}/hamedpanel${PATHS}/backupnutif.php >/dev/null 2>&1") | sort - | uniq - | crontab -
 
 echo -e "\n\e[92m Setting Up Cron...\033[0m\n"
 
@@ -258,11 +258,11 @@ wait
 
     randomdbdb=$(openssl rand -base64 10 | tr -dc 'a-zA-Z' | cut -c1-8)
 
-    if [[ $(mysql -u root -p$ROOT_PASSWORD -e "SHOW DATABASES LIKE 'wizwiz'") ]]; then
+    if [[ $(mysql -u root -p$ROOT_PASSWORD -e "SHOW DATABASES LIKE 'hamedpanel'") ]]; then
         clear
         echo -e "\n\e[91mYou have already created the database\033[0m\n"
     else
-        dbname=wizwiz
+        dbname=hamedpanel
         clear
         echo -e "\n\e[32mPlease enter the database username!\033[0m"
         printf "[+] Default user name is \e[91m${randomdbdb}\e[0m ( let it blank to use this user name ): "
@@ -303,7 +303,7 @@ wait
 
         sleep 1
         
-        file_path="/var/www/html/wizwizxui-timebot/baseInfo.php"
+        file_path="/var/www/html/hamed-timebot/baseInfo.php"
         
         if [ -f "$file_path" ]; then
           rm "$file_path"
@@ -315,33 +315,33 @@ wait
         sleep 2
         
         # print file
-        echo -e "<?php" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "error_reporting(0);" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}botToken = '${YOUR_BOT_TOKEN}';" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}dbUserName = '${dbuser}';" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}dbPassword = '${dbpass}';" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}dbName = '${dbname}';" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}botUrl = 'https://${YOUR_DOMAIN}/wizwizxui-timebot/';" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "${ASAS}admin = ${YOUR_CHAT_ID};" >> /var/www/html/wizwizxui-timebot/baseInfo.php
-        echo -e "?>" >> /var/www/html/wizwizxui-timebot/baseInfo.php
+        echo -e "<?php" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "error_reporting(0);" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}botToken = '${YOUR_BOT_TOKEN}';" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}dbUserName = '${dbuser}';" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}dbPassword = '${dbpass}';" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}dbName = '${dbname}';" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}botUrl = 'https://${YOUR_DOMAIN}/hamed-timebot/';" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "${ASAS}admin = ${YOUR_CHAT_ID};" >> /var/www/html/hamed-timebot/baseInfo.php
+        echo -e "?>" >> /var/www/html/hamed-timebot/baseInfo.php
 
         sleep 1
 
-        curl -F "url=https://${YOUR_DOMAIN}/wizwizxui-timebot/bot.php" "https://api.telegram.org/bot${YOUR_BOT_TOKEN}/setWebhook"
+        curl -F "url=https://${YOUR_DOMAIN}/hamed-timebot/bot.php" "https://api.telegram.org/bot${YOUR_BOT_TOKEN}/setWebhook"
         MESSAGE="✅ The wizwiz bot has been successfully installed! @wizwizch"
         curl -s -X POST "https://api.telegram.org/bot${YOUR_BOT_TOKEN}/sendMessage" -d chat_id="${YOUR_CHAT_ID}" -d text="$MESSAGE"
         
         
         sleep 1
         
-        url="https://${YOUR_DOMAIN}/wizwizxui-timebot/createDB.php"
+        url="https://${YOUR_DOMAIN}/hamed-timebot/createDB.php"
         curl $url
         
         sleep 1
         
-        sudo rm -r /var/www/html/wizwizxui-timebot/webpanel
-	    sudo rm -r /var/www/html/wizwizxui-timebot/install
-	    sudo rm /var/www/html/wizwizxui-timebot/createDB.php
+        sudo rm -r /var/www/html/hamed-timebot/webpanel
+	    sudo rm -r /var/www/html/hamed-timebot/install
+	    sudo rm /var/www/html/hamed-timebot/createDB.php
             
         clear
         
@@ -353,7 +353,7 @@ wait
         echo -e "\e[33mDatabase password: \e[36m${dbpass}\033[0m"
         echo " "
         echo -e "\e[100mwizwiz panel:\033[0m"
-        echo -e "\e[33maddres: \e[36mhttps://${YOUR_DOMAIN}/wizpanel${RANDOM_NUMBER}\033[0m"
+        echo -e "\e[33maddres: \e[36mhttps://${YOUR_DOMAIN}/hamedpanel${RANDOM_NUMBER}\033[0m"
         echo -e "\e[33musername panel: \e[36madmin\033[0m"
         echo -e "\e[33mpassword panel: \e[36madmin\033[0m\n"
         
